@@ -1,0 +1,11 @@
+{
+  "name": "ls_auth",
+  "version": "1.0.0",
+  "description": "LS Authentication",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "John Margaronis",
+  "license": "MIT"
+}
