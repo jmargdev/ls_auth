@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
 // User model
 const User = require('../models/User');
@@ -18,11 +19,11 @@ router.post('/register', (req, res) => {
 
   // Check required fields
   if (!name || !email || !password || !password2) {
-    errors.push({ msg: 'Please fill in all fields' });
+    errors.push({ msg: 'All of the fields are required to register' });
   }
   // Check if passwords match
   if (password !== password2) {
-    errors.push({ msg: 'Password must match' });
+    errors.push({ msg: 'Passwords must match' });
   }
   // Check password length
   if (password.length < 6) {
@@ -78,6 +79,22 @@ router.post('/register', (req, res) => {
       }
     });
   }
+});
+
+// Login handler
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/users/login',
+    failureFlash: true
+  })(req, res, next);
+});
+
+// Logout handler
+router.get('/logout', (req, res) => {
+  req.logout();
+  req.flash('success_msg', 'Successfully logged out');
+  res.redirect('/users/login');
 });
 
 module.exports = router;
